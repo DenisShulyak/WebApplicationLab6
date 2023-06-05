@@ -1,0 +1,74 @@
+﻿@model WebApplicationLab6.Objects.AnimalCapture
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>AnimalCapture</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Property" class="control-label"></label>
+                <input asp-for="Property" class="form-control" />
+                <span asp-validation-for="Property" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Animal" class="control-label"></label>
+                <input asp-for="Animal" class="form-control" />
+                <span asp-validation-for="Animal" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Ears" class="control-label"></label>
+                <input asp-for="Ears" class="form-control" />
+                <span asp-validation-for="Ears" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Tail" class="control-label"></label>
+                <input asp-for="Tail" class="form-control" />
+                <span asp-validation-for="Tail" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Features" class="control-label"></label>
+                <input asp-for="Features" class="form-control" />
+                <span asp-validation-for="Features" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IdentityMark" class="control-label"></label>
+                <input asp-for="IdentityMark" class="form-control" />
+                <span asp-validation-for="IdentityMark" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EChipNum" class="control-label"></label>
+                <input asp-for="EChipNum" class="form-control" />
+                <span asp-validation-for="EChipNum" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CaptureActId" class="control-label"></label>
+                <select asp-for="CaptureActId" class="form-control" asp-items="ViewBag.CaptureActId"></select>
+                <span asp-validation-for="CaptureActId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CityId" class="control-label"></label>
+                <select asp-for="CityId" class="form-control" asp-items="ViewBag.CityId"></select>
+                <span asp-validation-for="CityId" class="text-danger"></span>
+            </div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

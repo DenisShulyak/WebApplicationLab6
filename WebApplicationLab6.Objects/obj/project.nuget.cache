@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "p7iBwbCNVonM3QmU0isnM8+2HjOy/7gGRew8NA1i9ph/usNPQGuGQyV8n5p42dh/JNNyaPm9/WNvdMoBZZ+qBg==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\denis\\source\\repos\\WebApplicationLab6\\WebApplicationLab6.Objects\\WebApplicationLab6.Objects.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\denis\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\3.1.10\\microsoft.aspnetcore.app.ref.3.1.10.nupkg.sha512"
+  ],
+  "logs": []
+}

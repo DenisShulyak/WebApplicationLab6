@@ -1,0 +1,119 @@
+﻿@model IEnumerable<WebApplicationLab6.Objects.CaptureAct>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+<!-- Форма поиска -->
+<form asp-action="Index" method="get">
+    <div>
+        <label for="searchField">Search Field:</label>
+        <select name="searchField">
+            <option value="CapturePurpose">Capture Purpose</option>
+            <option value="OrganizationName">Organization Name</option>
+            <option value="ContractId">Contract ID</option>
+            <option value="ClaimDistrict">Claim District</option>
+        </select>
+    </div>
+    <div>
+        <label for="searchTerm">Search Term:</label>
+        <input type="text" name="searchTerm">
+    </div>
+    <div>
+        <label for="sortField">Sort Field:</label>
+        <select name="sortField">
+            <option value="CountDogs">Count Dogs</option>
+            <option value="CountCats">Count Cats</option>
+            <option value="CountAnimals">Count Animals</option>
+            <option value="CaptureDate">Capture Date</option>
+            <option value="CapturePurpose">Capture Purpose</option>
+            <option value="Organization">Organization</option>
+            <option value="Contract">Contract</option>
+            <option value="Claim">Claim</option>
+        </select>
+    </div>
+    <div>
+        <label for="sortOrder">Sort Order:</label>
+        <select name="sortOrder">
+            <option value="Ascending">Ascending</option>
+            <option value="Descending">Descending</option>
+        </select>
+    </div>
+    <div>
+        <button type="submit">Search</button>
+    </div>
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.CountDogs)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CountCats)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CountAnimals)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CaptureDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CapturePurpose)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Organization)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Contract)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Claim)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Where(act => string.IsNullOrEmpty(ViewBag.SearchTerm) || act.CapturePurpose.Contains(ViewBag.SearchTerm)))
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CountDogs)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CountCats)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CountAnimals)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CaptureDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CapturePurpose)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Organization.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Contract.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Claim.Id)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

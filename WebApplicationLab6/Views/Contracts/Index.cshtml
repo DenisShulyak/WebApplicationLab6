@@ -1,0 +1,89 @@
+﻿@model IEnumerable<WebApplicationLab6.Objects.Contract>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+
+</p>
+
+<form asp-action="Index" method="get">
+    <div>
+        <label for="searchField">Search Field:</label>
+        <select name="searchField">
+            <option value="ContractId">Contract ID</option>
+            <option value="ExecutorName">Executor Name</option>
+            <option value="CustomerName">Customer Name</option>
+        </select>
+    </div>
+    <div>
+        <label for="searchTerm">Search Term:</label>
+        <input type="text" name="searchTerm">
+    </div>
+    <div>
+        <label for="sortField">Sort Field:</label>
+        <select name="sortField">
+            <option value="BeginDate">Begin Date</option>
+            <option value="EndDate">End Date</option>
+            <option value="Customer">Customer</option>
+            <option value="Executor">Executor</option>
+        </select>
+    </div>
+    <div>
+        <label for="sortOrder">Sort Order:</label>
+        <select name="sortOrder">
+            <option value="Ascending">Ascending</option>
+            <option value="Descending">Descending</option>
+        </select>
+    </div>
+    <div>
+        <button type="submit">Search</button>
+    </div>
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.BeginDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EndDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Customer)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Executor)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.BeginDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EndDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Customer.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Executor.Id)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -1,0 +1,13 @@
+C:\Users\denis\source\repos\WebApplicationLab6\WebApplicationLab6.Data\bin\Debug\netcoreapp3.1\WebApplicationLab6.Data.deps.json
+C:\Users\denis\source\repos\WebApplicationLab6\WebApplicationLab6.Data\bin\Debug\netcoreapp3.1\WebApplicationLab6.Data.dll
+C:\Users\denis\source\repos\WebApplicationLab6\WebApplicationLab6.Data\bin\Debug\netcoreapp3.1\WebApplicationLab6.Data.pdb
+C:\Users\denis\source\repos\WebApplicationLab6\WebApplicationLab6.Data\bin\Debug\netcoreapp3.1\WebApplicationLab6.Objects.dll
+C:\Users\denis\source\repos\WebApplicationLab6\WebApplicationLab6.Data\bin\Debug\netcoreapp3.1\WebApplicationLab6.Objects.pdb
+C:\Users\denis\source\repos\WebApplicationLab6\WebApplicationLab6.Data\obj\Debug\netcoreapp3.1\WebApplicationLab6.Data.csproj.AssemblyReference.cache
+C:\Users\denis\source\repos\WebApplicationLab6\WebApplicationLab6.Data\obj\Debug\netcoreapp3.1\WebApplicationLab6.Data.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\denis\source\repos\WebApplicationLab6\WebApplicationLab6.Data\obj\Debug\netcoreapp3.1\WebApplicationLab6.Data.AssemblyInfoInputs.cache
+C:\Users\denis\source\repos\WebApplicationLab6\WebApplicationLab6.Data\obj\Debug\netcoreapp3.1\WebApplicationLab6.Data.AssemblyInfo.cs
+C:\Users\denis\source\repos\WebApplicationLab6\WebApplicationLab6.Data\obj\Debug\netcoreapp3.1\WebApplicationLab6.Data.csproj.CoreCompileInputs.cache
+C:\Users\denis\source\repos\WebApplicationLab6\WebApplicationLab6.Data\obj\Debug\netcoreapp3.1\WebApplicationLab6.Data.csproj.CopyComplete
+C:\Users\denis\source\repos\WebApplicationLab6\WebApplicationLab6.Data\obj\Debug\netcoreapp3.1\WebApplicationLab6.Data.dll
+C:\Users\denis\source\repos\WebApplicationLab6\WebApplicationLab6.Data\obj\Debug\netcoreapp3.1\WebApplicationLab6.Data.pdb

@@ -1,0 +1,102 @@
+﻿@model IEnumerable<WebApplicationLab6.Objects.Organization>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+<form asp-action="Index" method="get">
+    <div>
+        <label for="searchField">Search Field:</label>
+        <select name="searchField">
+            <option value="OrganizationName">Organization Name</option>
+            <option value="OrganizationType">Organization Type Name</option>
+            <option value="City">City Name</option>
+        </select>
+    </div>
+    <div>
+        <label for="searchTerm">Search Term:</label>
+        <input type="text" name="searchTerm">
+    </div>
+    <div>
+        <label for="sortField">Sort Field:</label>
+        <select name="sortField">
+            <option value="Name">Name</option>
+            <option value="Inn">INN</option>
+            <option value="Kpp">KPP</option>
+            <option value="Address">Address</option>
+            <option value="City">City</option>
+            <option value="OrganizationType">Organization Type</option>
+        </select>
+    </div>
+    <div>
+        <label for="sortOrder">Sort Order:</label>
+        <select name="sortOrder">
+            <option value="Ascending">Ascending</option>
+            <option value="Descending">Descending</option>
+        </select>
+    </div>
+    <div>
+        <button type="submit">Search</button>
+    </div>
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Inn)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Kpp)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Address)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.City)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OrganizationType)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Inn)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Kpp)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.City.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrganizationType.Id)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
