@@ -21,9 +21,6 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-                       @* <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="About">About</a>
-                        </li>*@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Claims" asp-action="Index">Claims</a>
                         </li>
@@ -42,7 +39,7 @@
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Logout">@User.Identity.Name - Выйти</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" href="@Url.Action("Download", "Report")">Download Contracts Excel</a>
+                                <a class="nav-link text-dark" href="@Url.Action("Index", "Report")">Отчет</a>
                             </li>
                         }
                         else{

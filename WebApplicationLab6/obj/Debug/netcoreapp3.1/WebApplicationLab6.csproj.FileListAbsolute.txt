@@ -202,3 +202,4 @@ C:\Users\denis\source\repos\WebApplicationLab6\WebApplicationLab6\obj\Debug\netc
 C:\Users\denis\source\repos\WebApplicationLab6\WebApplicationLab6\obj\Debug\netcoreapp3.1\WebApplicationLab6.dll
 C:\Users\denis\source\repos\WebApplicationLab6\WebApplicationLab6\obj\Debug\netcoreapp3.1\WebApplicationLab6.pdb
 C:\Users\denis\source\repos\WebApplicationLab6\WebApplicationLab6\obj\Debug\netcoreapp3.1\WebApplicationLab6.genruntimeconfig.cache
+C:\Users\denis\source\repos\WebApplicationLab6\WebApplicationLab6\obj\Debug\netcoreapp3.1\Razor\Views\Report\Index.cshtml.g.cs

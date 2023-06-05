@@ -71,9 +71,9 @@ namespace WebApplicationLab6.Controllers
                 {
                     claims = sortOrder == "Ascending" ? claims.OrderBy(c => c.Description).ToList() : claims.OrderByDescending(c => c.Description).ToList();
                 }
-                else if (sortField == "IsSpeed")
+                else if (sortField == "IsDone")
                 {
-                    claims = sortOrder == "Ascending" ? claims.OrderBy(c => c.IsSpeed).ToList() : claims.OrderByDescending(c => c.IsSpeed).ToList();
+                    claims = sortOrder == "Ascending" ? claims.OrderBy(c => c.IsDone).ToList() : claims.OrderByDescending(c => c.IsDone).ToList();
                 }
                 else if (sortField == "City")
                 {
@@ -130,7 +130,7 @@ namespace WebApplicationLab6.Controllers
         [Authorize(Roles = "Оператор ОМСУ")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("FilingDate,CategoryCustomer,District,Description,IsSpeed,CityId,Id")] Claim claim)
+        public async Task<IActionResult> Create([Bind("FilingDate,CategoryCustomer,District,Description,IsDone,CityId,Id")] Claim claim)
         {
             var cities = _context.Cities.ToList();
             if (User.IsInRole("Оператор ОМСУ"))
@@ -187,7 +187,7 @@ namespace WebApplicationLab6.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("FilingDate,CategoryCustomer,District,Description,IsSpeed,CityId,Id")] Claim claim)
+        public async Task<IActionResult> Edit(Guid id, [Bind("FilingDate,CategoryCustomer,District,Description,IsDone,CityId,Id")] Claim claim)
         {
             if (id != claim.Id)
             {

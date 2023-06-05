@@ -74,6 +74,8 @@ namespace WebApplicationLab6.Data
             modelBuilder.Entity<ContractCity>()
                 .HasKey(cc => new { cc.ContractId, cc.CityId });
 
+            modelBuilder.Entity<ContractCity>().ToTable("ContractCity");
+
             modelBuilder.Entity<ContractCity>()
                 .HasOne(cc => cc.Contract)
                 .WithMany(c => c.ContractCities)

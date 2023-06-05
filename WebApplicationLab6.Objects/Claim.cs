@@ -13,7 +13,7 @@ namespace WebApplicationLab6.Objects
         
         public string Description { get; set; }
         
-        public bool IsSpeed { get; set; }
+        public bool IsDone { get; set; }
         
         public Guid CityId { get; set; }
         

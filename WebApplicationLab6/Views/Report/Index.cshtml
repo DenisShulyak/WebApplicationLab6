@@ -1,0 +1,51 @@
+﻿@model IEnumerable<WebApplicationLab6.Objects.ReportRow>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Download">Download</a>
+
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.City)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CountAnimals)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CountClaimsDone)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Decimal)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.City)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CountAnimals)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CountClaimsDone)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Decimal)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
