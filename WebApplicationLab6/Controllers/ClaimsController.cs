@@ -1,11 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using OfficeOpenXml;
 using WebApplicationLab6.Data;
+using WebApplicationLab6.Objects;
 using Claim = WebApplicationLab6.Objects.Claim;
 
 namespace WebApplicationLab6.Controllers
@@ -14,6 +17,8 @@ namespace WebApplicationLab6.Controllers
     {
         private readonly ApplicationDbContext _context;
 
+        private static List<Claim> _lastList = new List<Claim>();
+
         public ClaimsController(ApplicationDbContext context)
         {
             _context = context;
@@ -21,8 +26,12 @@ namespace WebApplicationLab6.Controllers
 
         // GET: Claims
         [Authorize(Roles = "Оператор ОМСУ,Куратор ОМСУ,Подписант ОМСУ,Оператор ВетСлужбы,Куратор ВетСлужбы,Подписант ВетСлужбы,Оператор по отлову,Куратор по отлову,Подписант по отлову")]
-        public async Task<IActionResult> Index(string searchField, string searchTerm, string sortField, string sortOrder)
+        public async Task<IActionResult> Index(string searchField, string searchTerm, string sortField, string sortOrder, string downloadData)
         {
+            if (!string.IsNullOrEmpty(downloadData) && downloadData.ToLower() == "true")
+            {
+                return Download(_lastList);
+            }
             var applicationDbContext = _context.Claims.Include(c => c.City);
             var claims = await applicationDbContext.ToListAsync();
             if (User.IsInRole("Оператор ОМСУ") || User.IsInRole("Куратор ОМСУ") || User.IsInRole("Подписант ОМСУ") || User.IsInRole("Оператор по отлову")
@@ -83,8 +92,49 @@ namespace WebApplicationLab6.Controllers
             }
                 ViewBag.SearchField = searchField;
             ViewBag.SearchTerm = searchTerm;
-
+            _lastList = claims;
             return View(claims);
+        }
+
+        private IActionResult Download(List<Claim> models)
+        {
+            using (ExcelPackage package = new ExcelPackage())
+            {
+                // Create the worksheet
+                ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("Contracts");
+
+                // Add column headers
+                worksheet.Cells[1, 1].Value = "FilingDate";
+                worksheet.Cells[1, 2].Value = "CategoryCustomer";
+                worksheet.Cells[1, 3].Value = "District";
+                worksheet.Cells[1, 4].Value = "Description";
+                worksheet.Cells[1, 5].Value = "IsDone";
+                worksheet.Cells[1, 6].Value = "City";
+
+                // Add data to the worksheet
+                int row = 2;
+                foreach (var item in models)
+                {
+                    worksheet.Cells[row, 1].Value = item.FilingDate.ToString();
+                    worksheet.Cells[row, 2].Value = item.CategoryCustomer.ToString();
+                    worksheet.Cells[row, 3].Value = item.District;
+                    worksheet.Cells[row, 4].Value = item.Description;
+                    worksheet.Cells[row, 5].Value = item.IsDone.ToString();
+                    worksheet.Cells[row, 6].Value = item.City.Name;
+                    row++;
+                }
+
+                // Auto-fit columns for better visibility
+                worksheet.Cells.AutoFitColumns();
+
+                // Convert the Excel package to a byte array
+                byte[] excelBytes = package.GetAsByteArray();
+
+                // Set the content type and file name for the response
+                string fileName = "contracts.xlsx";
+                string contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                return File(excelBytes, contentType, fileName);
+            }
         }
 
         // GET: Claims/Details/5

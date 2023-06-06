@@ -44,6 +44,7 @@ namespace WebApplicationLab6.Controllers
                     }
                     report.Rows.Add(new ReportRow
                     {
+                        ContractId = contract.Id,
                         CountClaimsDone = countDone,
                         CountAnimals = sum,
                         City = c.Name,
@@ -77,6 +78,7 @@ namespace WebApplicationLab6.Controllers
                     }
                     report.Rows.Add(new ReportRow
                     {
+                        ContractId = contract.Id,
                         CountClaimsDone = countDone,
                         CountAnimals = sum,
                         City = c.Name,
@@ -94,19 +96,21 @@ namespace WebApplicationLab6.Controllers
                 ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("Contracts");
 
                 // Add column headers
-                worksheet.Cells[1, 1].Value = "Город";
-                worksheet.Cells[1, 2].Value = "Сколько Закрыто заявок";
-                worksheet.Cells[1, 3].Value = "Сколько отловленно";
-                worksheet.Cells[1, 4].Value = "Общая стоимость";
+                worksheet.Cells[1, 1].Value = "Контракт";
+                worksheet.Cells[1, 2].Value = "Город";
+                worksheet.Cells[1, 3].Value = "Сколько Закрыто заявок";
+                worksheet.Cells[1, 4].Value = "Сколько отловленно";
+                worksheet.Cells[1, 5].Value = "Общая стоимость";
 
                 // Add data to the worksheet
                 int row = 2;
                 foreach (var item in report.Rows)
                 {
-                    worksheet.Cells[row, 1].Value = item.City;
-                    worksheet.Cells[row, 2].Value = item.CountClaimsDone;
-                    worksheet.Cells[row, 3].Value = item.CountAnimals;
-                    worksheet.Cells[row, 4].Value = item.Decimal;
+                    worksheet.Cells[row, 1].Value = item.ContractId;
+                    worksheet.Cells[row, 2].Value = item.City;
+                    worksheet.Cells[row, 3].Value = item.CountClaimsDone;
+                    worksheet.Cells[row, 4].Value = item.CountAnimals;
+                    worksheet.Cells[row, 5].Value = item.Decimal;
                     row++;
                 }
 

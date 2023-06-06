@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using OfficeOpenXml;
 using WebApplicationLab6.Data;
 using WebApplicationLab6.Objects;
 using Contract = WebApplicationLab6.Objects.Contract;
@@ -17,6 +18,8 @@ namespace WebApplicationLab6.Controllers
     {
         private readonly ApplicationDbContext _context;
 
+        private static List<Contract> _lastList = new List<Contract>();
+
         public ContractsController(ApplicationDbContext context)
         {
             _context = context;
@@ -24,8 +27,12 @@ namespace WebApplicationLab6.Controllers
 
         // GET: Contracts
         [Authorize(Roles = "Оператор ОМСУ,Куратор ОМСУ,Подписант ОМСУ,Оператор ВетСлужбы,Куратор ВетСлужбы,Подписант ВетСлужбы,Куратор по отлову,Куратор приюта,Подписант приюта")]
-        public async Task<IActionResult> Index(string searchField, string searchTerm, string sortField, string sortOrder)
+        public async Task<IActionResult> Index(string searchField, string searchTerm, string sortField, string sortOrder, string downloadData)
         {
+            if (!string.IsNullOrEmpty(downloadData) && downloadData.ToLower() == "true")
+            {
+                return Download(_lastList);
+            }
             var applicationDbContext = _context.Contracts.Include(c => c.Customer).Include(c => c.Executor);
             var contracts = applicationDbContext.ToList();
             if (User.IsInRole("Куратор приюта") || User.IsInRole("Подписан приюта") || User.IsInRole("Оператор приюта"))
@@ -87,7 +94,46 @@ namespace WebApplicationLab6.Controllers
             ViewBag.SearchField = searchField;
             ViewBag.SearchTerm = searchTerm;
 
+            _lastList = contracts;
+
             return View(contracts);
+        }
+
+        private IActionResult Download(List<Contract> models)
+        {
+            using (ExcelPackage package = new ExcelPackage())
+            {
+                // Create the worksheet
+                ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("Contracts");
+
+                // Add column headers
+                worksheet.Cells[1, 1].Value = "BeginDate";
+                worksheet.Cells[1, 2].Value = "EndDate";
+                worksheet.Cells[1, 3].Value = "Customer";
+                worksheet.Cells[1, 4].Value = "Executor";
+
+                // Add data to the worksheet
+                int row = 2;
+                foreach (var item in models)
+                {
+                    worksheet.Cells[row, 1].Value = item.BeginDate.ToString();
+                    worksheet.Cells[row, 2].Value = item.EndDate.ToString();
+                    worksheet.Cells[row, 3].Value = item.Customer.Name;
+                    worksheet.Cells[row, 4].Value = item.Executor.Name;
+                    row++;
+                }
+
+                // Auto-fit columns for better visibility
+                worksheet.Cells.AutoFitColumns();
+
+                // Convert the Excel package to a byte array
+                byte[] excelBytes = package.GetAsByteArray();
+
+                // Set the content type and file name for the response
+                string fileName = "contracts.xlsx";
+                string contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                return File(excelBytes, contentType, fileName);
+            }
         }
 
         // GET: Contracts/Details/5

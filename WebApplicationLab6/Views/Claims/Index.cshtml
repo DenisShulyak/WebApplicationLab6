@@ -10,13 +10,19 @@
     <a asp-action="Create">Create New</a>
 </p>
 
+<form asp-action="Index" method="get">
+    <div>
+        <input type="hidden" name="downloadData" value="true" />
+        <button type="submit">Download</button>
+    </div>
+</form>
+
 <!-- Форма поиска -->
 <form asp-action="Index" method="get">
     <div>
         <label for="searchField">Search Field:</label>
         <select name="searchField">
             <option value="City">City Name</option>
-            <option value="Claim">ClaimId</option>
             <option value="Description">Description</option>
         </select>
     </div>
@@ -91,10 +97,9 @@
                 @Html.DisplayFor(modelItem => item.IsDone)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.City.Id)
+                @Html.DisplayFor(modelItem => item.City.Name)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
                 <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
             </td>

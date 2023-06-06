@@ -6,6 +6,8 @@ namespace WebApplicationLab6.Objects
 {
     public class ReportRow
     {
+        public Guid ContractId { get; set; }
+        
         public string City { get; set; }
 
         public int CountAnimals { get; set; }

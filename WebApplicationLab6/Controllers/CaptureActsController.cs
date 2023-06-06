@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Composition;
+using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -6,6 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using OfficeOpenXml;
 using WebApplicationLab6.Data;
 using WebApplicationLab6.Objects;
 
@@ -15,6 +19,8 @@ namespace WebApplicationLab6.Controllers
     {
         private readonly ApplicationDbContext _context;
 
+        private static List<CaptureAct> _lastList = new List<CaptureAct>();
+
         public CaptureActsController(ApplicationDbContext context)
         {
             _context = context;
@@ -22,8 +28,12 @@ namespace WebApplicationLab6.Controllers
 
         // GET: CaptureActs
         [Authorize(Roles = "Оператор ОМСУ,Куратор ОМСУ,Подписант ОМСУ,Оператор ВетСлужбы,Куратор ВетСлужбы,Подписант ВетСлужбы,Оператор по отлову,Куратор по отлову,Подписант по отлову,Оператор приюта,Куратор приюта,Подписант приюта")]
-        public async Task<IActionResult> Index(string searchField, string searchTerm, string sortField, string sortOrder)
+        public async Task<IActionResult> Index(string searchField, string searchTerm, string sortField, string sortOrder, string downloadData)
         {
+            if (!string.IsNullOrEmpty(downloadData) && downloadData.ToLower() == "true")
+            {
+                return Download(_lastList);
+            }
             var applicationDbContext = _context.CaptureActs.Include(c => c.Claim).Include(c => c.Contract).Include(c => c.Organization);
             var captureActs = applicationDbContext.ToList();
             if (User.IsInRole("Оператор ОМСУ") || User.IsInRole("Куратор ОМСУ") || User.IsInRole("Подписант ОМСУ") || User.IsInRole("Оператор по отлову")
@@ -44,9 +54,6 @@ namespace WebApplicationLab6.Controllers
                         break;
                     case "OrganizationName":
                         captureActs = captureActs.Where(act => act.Organization.Name.Contains(searchTerm)).ToList();
-                        break;
-                    case "ContractId":
-                        captureActs = captureActs.Where(act => act.ContractId == Guid.Parse(searchTerm)).ToList();
                         break;
                     case "ClaimDistrict":
                         captureActs = captureActs.Where(act => act.Claim.District.Contains(searchTerm)).ToList();
@@ -94,6 +101,8 @@ namespace WebApplicationLab6.Controllers
 
             ViewBag.SearchField = searchField;
             ViewBag.SearchTerm = searchTerm;
+
+            _lastList = captureActs;
             return View(captureActs);
         }
 
@@ -187,7 +196,7 @@ namespace WebApplicationLab6.Controllers
                 return NotFound();
             }
 
-            var captureActs = _context.CaptureActs.Where(x=>x.Id == id).ToList();
+            var captureActs = _context.CaptureActs.Where(x => x.Id == id).ToList();
             var organizations = _context.Organizations.ToList();
             if (User.IsInRole("Оператор по отлову"))
             {
@@ -312,6 +321,50 @@ namespace WebApplicationLab6.Controllers
             _context.CaptureActs.Remove(captureAct);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+        }
+        private IActionResult Download(List<CaptureAct> models)
+        {
+            using (ExcelPackage package = new ExcelPackage())
+            {
+                // Create the worksheet
+                ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("Contracts");
+
+                // Add column headers
+                worksheet.Cells[1, 1].Value = "CountDogs";
+                worksheet.Cells[1, 2].Value = "CountCats";
+                worksheet.Cells[1, 3].Value = "CountAnimals";
+                worksheet.Cells[1, 4].Value = "CaptureDate";
+                worksheet.Cells[1, 5].Value = "CapturePurpose";
+                worksheet.Cells[1, 6].Value = "Organization";
+                worksheet.Cells[1, 7].Value = "Contract";
+                worksheet.Cells[1, 8].Value = "Claim";
+
+                // Add data to the worksheet
+                int row = 2;
+                foreach (var item in models)
+                {
+                    worksheet.Cells[row, 1].Value = item.CountDogs;
+                    worksheet.Cells[row, 2].Value = item.CountCats;
+                    worksheet.Cells[row, 3].Value = item.CountAnimals;
+                    worksheet.Cells[row, 4].Value = item.CaptureDate.ToString();
+                    worksheet.Cells[row, 5].Value = item.CapturePurpose;
+                    worksheet.Cells[row, 6].Value = item.Organization.Name;
+                    worksheet.Cells[row, 7].Value = item.Contract.Id;
+                    worksheet.Cells[row, 8].Value = item.Claim.District;
+                    row++;
+                }
+
+                // Auto-fit columns for better visibility
+                worksheet.Cells.AutoFitColumns();
+
+                // Convert the Excel package to a byte array
+                byte[] excelBytes = package.GetAsByteArray();
+
+                // Set the content type and file name for the response
+                string fileName = "contracts.xlsx";
+                string contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                return File(excelBytes, contentType, fileName);
+            }
         }
 
         private bool CaptureActExists(Guid id)
