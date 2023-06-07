@@ -34,11 +34,11 @@
             </div>
             <div class="form-group">
                 <label asp-for="CityId" class="control-label"></label>
-                <select asp-for="CityId" class ="form-control" asp-items="ViewBag.CityId"></select>
+                @Html.DropDownListFor(model => model.CityId, ViewBag.Cities as SelectList, "-- Select City --", new { @class = "form-control" })
             </div>
             <div class="form-group">
                 <label asp-for="OrganizationTypeId" class="control-label"></label>
-                <select asp-for="OrganizationTypeId" class ="form-control" asp-items="ViewBag.OrganizationTypeId"></select>
+                @Html.DropDownListFor(model => model.OrganizationTypeId, ViewBag.OrganizationTypes as SelectList, "-- Select Organization Type --", new { @class = "form-control" })
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

@@ -44,7 +44,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="CityId" class="control-label"></label>
-                <select asp-for="CityId" class="form-control" asp-items="ViewBag.CityId"></select>
+                @Html.DropDownListFor(model => model.CityId, ViewBag.Cities as SelectList, "-- Select City --", new { @class = "form-control" })
                 <span asp-validation-for="CityId" class="text-danger"></span>
             </div>
             <input type="hidden" asp-for="Id" />

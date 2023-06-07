@@ -234,7 +234,8 @@ namespace WebApplicationLab6.Controllers
             {
                 organizationTypes = _context.OrganizationTypes.ToList();
             }
-            ViewData["OrganizationTypeId"] = new SelectList(organizationTypes, "Id", "Id");
+            ViewData["OrganizationTypes"] = new SelectList(organizationTypes, "Id", "Name");
+            ViewData["Cities"] = new SelectList(_context.Cities, "Id", "Name");
             return View();
         }
 
@@ -253,8 +254,8 @@ namespace WebApplicationLab6.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CityId"] = new SelectList(_context.Cities, "Id", "Id", organization.CityId);
-            ViewData["OrganizationTypeId"] = new SelectList(_context.OrganizationTypes, "Id", "Id", organization.OrganizationTypeId);
+            ViewData["OrganizationTypes"] = new SelectList(_context.OrganizationTypes, "Id", "Name", organization.OrganizationTypeId);
+            ViewData["Cities"] = new SelectList(_context.Cities, "Id", "Name", organization.CityId);
             return View(organization);
         }
 
@@ -267,7 +268,7 @@ namespace WebApplicationLab6.Controllers
                 return NotFound();
             }
 
-            var organizations = _context.Organizations.Where(x=>x.Id == id).ToList();
+            var organizations = _context.Organizations.Include(x=>x.OrganizationType).Where(x=>x.Id == id).ToList();
             if (User.IsInRole("Оператор ОМСУ"))
             {
                 organizations = organizations.Where(x => x.OrganizationType.Name == "Приют" ||
@@ -292,8 +293,8 @@ namespace WebApplicationLab6.Controllers
             {
                 return NotFound();
             }
-            ViewData["CityId"] = new SelectList(_context.Cities, "Id", "Id", organization.CityId);
-            ViewData["OrganizationTypeId"] = new SelectList(_context.OrganizationTypes, "Id", "Id", organization.OrganizationTypeId);
+            ViewData["OrganizationTypes"] = new SelectList(_context.OrganizationTypes, "Id", "Name", organization.OrganizationTypeId);
+            ViewData["Cities"] = new SelectList(_context.Cities, "Id", "Name", organization.CityId);
             return View(organization);
         }
 
@@ -330,8 +331,8 @@ namespace WebApplicationLab6.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CityId"] = new SelectList(_context.Cities, "Id", "Id", organization.CityId);
-            ViewData["OrganizationTypeId"] = new SelectList(_context.OrganizationTypes, "Id", "Id", organization.OrganizationTypeId);
+            ViewData["OrganizationTypes"] = new SelectList(_context.OrganizationTypes, "Id", "Name", organization.OrganizationTypeId);
+            ViewData["Cities"] = new SelectList(_context.Cities, "Id", "Name", organization.CityId);
             return View(organization);
         }
 

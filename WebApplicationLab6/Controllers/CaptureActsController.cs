@@ -151,9 +151,9 @@ namespace WebApplicationLab6.Controllers
 
                 organizations = organizations.Where(x => x.Id == user.OrganizationId).ToList();
             }
-            ViewData["ClaimId"] = new SelectList(_context.Claims, "Id", "Id");
+            ViewData["Claims"] = new SelectList(_context.Claims, "Id", "District");
             ViewData["ContractId"] = new SelectList(_context.Contracts, "Id", "Id");
-            ViewData["OrganizationId"] = new SelectList(organizations, "Id", "Id");
+            ViewData["Organizations"] = new SelectList(organizations, "Id", "Name");
             return View();
         }
 
@@ -181,9 +181,9 @@ namespace WebApplicationLab6.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ClaimId"] = new SelectList(_context.Claims, "Id", "Id", captureAct.ClaimId);
-            ViewData["ContractId"] = new SelectList(_context.Contracts, "Id", "Id", captureAct.ContractId);
-            ViewData["OrganizationId"] = new SelectList(organizations, "Id", "Id", captureAct.OrganizationId);
+            ViewData["Claims"] = new SelectList(_context.Claims, "Id", "District");
+            ViewData["ContractId"] = new SelectList(_context.Contracts, "Id", "Id");
+            ViewData["Organizations"] = new SelectList(organizations, "Id", "Name");
             return View(captureAct);
         }
 
@@ -212,9 +212,10 @@ namespace WebApplicationLab6.Controllers
             {
                 return NotFound();
             }
-            ViewData["ClaimId"] = new SelectList(_context.Claims, "Id", "Id", captureAct.ClaimId);
+
+            ViewData["Claims"] = new SelectList(_context.Claims, "Id", "District",captureAct.ClaimId);
             ViewData["ContractId"] = new SelectList(_context.Contracts, "Id", "Id", captureAct.ContractId);
-            ViewData["OrganizationId"] = new SelectList(_context.Organizations, "Id", "Id", captureAct.OrganizationId);
+            ViewData["Organizations"] = new SelectList(organizations, "Id", "Name", captureAct.OrganizationId);
             return View(captureAct);
         }
 
@@ -259,9 +260,9 @@ namespace WebApplicationLab6.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ClaimId"] = new SelectList(_context.Claims, "Id", "Id", captureAct.ClaimId);
+            ViewData["Claims"] = new SelectList(_context.Claims, "Id", "District", captureAct.ClaimId);
             ViewData["ContractId"] = new SelectList(_context.Contracts, "Id", "Id", captureAct.ContractId);
-            ViewData["OrganizationId"] = new SelectList(_context.Organizations, "Id", "Id", captureAct.OrganizationId);
+            ViewData["Organizations"] = new SelectList(organizations, "Id", "Name", captureAct.OrganizationId);
             return View(captureAct);
         }
 

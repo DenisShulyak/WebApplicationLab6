@@ -183,7 +183,7 @@ namespace WebApplicationLab6.Controllers
         {
             var customers = _context.Organizations.ToList();
             var excutors = _context.Organizations.ToList();
-            if (User.IsInRole("Куратор приюта") || User.IsInRole("Подписан приюта") || User.IsInRole("Оператор приюта") || User.IsInRole("Оператор ОМСУ") || User.IsInRole("Куратор ОМСУ") || User.IsInRole("Подписант ОМСУ"))
+            if (User.IsInRole("Куратор приюта") || User.IsInRole("Подписан приюта") || User.IsInRole("Оператор приюта"))
             {
                 string userName = User.Identity.Name;
 
@@ -191,7 +191,7 @@ namespace WebApplicationLab6.Controllers
 
                 excutors = excutors.Where(x => x.Id == user.OrganizationId).ToList();
             }
-            else if (User.IsInRole("Куратор приюта") || User.IsInRole("Подписан приюта") || User.IsInRole("Оператор приюта") || User.IsInRole("Оператор ОМСУ") || User.IsInRole("Куратор ОМСУ") || User.IsInRole("Подписант ОМСУ"))
+            else if (User.IsInRole("Оператор ОМСУ") || User.IsInRole("Куратор ОМСУ") || User.IsInRole("Подписант ОМСУ"))
             {
                 string userName = User.Identity.Name;
 
@@ -199,8 +199,8 @@ namespace WebApplicationLab6.Controllers
 
                 customers = customers.Where(x => x.Id == user.OrganizationId).ToList();
             }
-            ViewData["CustomerId"] = new SelectList(customers, "Id", "Id");
-            ViewData["ExecutorId"] = new SelectList(excutors, "Id", "Id");
+            ViewBag.Customers = new SelectList(customers, "Id", "Name");
+            ViewBag.Executors = new SelectList(excutors, "Id", "Name");
             return View();
         }
 
@@ -214,7 +214,7 @@ namespace WebApplicationLab6.Controllers
         {
             var customers = _context.Organizations.ToList();
             var excutors = _context.Organizations.ToList();
-            if (User.IsInRole("Куратор приюта") || User.IsInRole("Подписан приюта") || User.IsInRole("Оператор приюта") || User.IsInRole("Оператор ОМСУ") || User.IsInRole("Куратор ОМСУ") || User.IsInRole("Подписант ОМСУ"))
+            if (User.IsInRole("Куратор приюта") || User.IsInRole("Подписан приюта") || User.IsInRole("Оператор приюта"))
             {
                 string userName = User.Identity.Name;
 
@@ -222,7 +222,7 @@ namespace WebApplicationLab6.Controllers
 
                 excutors = excutors.Where(x => x.Id == user.OrganizationId).ToList();
             }
-            else if (User.IsInRole("Куратор приюта") || User.IsInRole("Подписан приюта") || User.IsInRole("Оператор приюта") || User.IsInRole("Оператор ОМСУ") || User.IsInRole("Куратор ОМСУ") || User.IsInRole("Подписант ОМСУ"))
+            else if (User.IsInRole("Оператор ОМСУ") || User.IsInRole("Куратор ОМСУ") || User.IsInRole("Подписант ОМСУ"))
             {
                 string userName = User.Identity.Name;
 
@@ -237,8 +237,8 @@ namespace WebApplicationLab6.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CustomerId"] = new SelectList(customers, "Id", "Id", contract.CustomerId);
-            ViewData["ExecutorId"] = new SelectList(excutors, "Id", "Id", contract.ExecutorId);
+            ViewBag.Customers = new SelectList(customers, "Id", "Name", contract.CustomerId);
+            ViewBag.Executors = new SelectList(excutors, "Id", "Name", contract.ExecutorId);
             return View(contract);
         }
 
@@ -254,7 +254,7 @@ namespace WebApplicationLab6.Controllers
             var contracts = _context.Contracts.Where(x=>x.Id == id).ToList();
             var customers = _context.Organizations.ToList();
             var excutors = _context.Organizations.ToList();
-            if (User.IsInRole("Куратор приюта") || User.IsInRole("Подписан приюта") || User.IsInRole("Оператор приюта") || User.IsInRole("Оператор ОМСУ") || User.IsInRole("Куратор ОМСУ") || User.IsInRole("Подписант ОМСУ"))
+            if (User.IsInRole("Куратор приюта") || User.IsInRole("Подписан приюта") || User.IsInRole("Оператор приюта"))
             {
                 string userName = User.Identity.Name;
 
@@ -263,7 +263,7 @@ namespace WebApplicationLab6.Controllers
                 excutors = excutors.Where(x => x.Id == user.OrganizationId).ToList();
                 contracts = contracts.Where(x => x.ExecutorId == user.OrganizationId).ToList();
             }
-            else if (User.IsInRole("Куратор приюта") || User.IsInRole("Подписан приюта") || User.IsInRole("Оператор приюта") || User.IsInRole("Оператор ОМСУ") || User.IsInRole("Куратор ОМСУ") || User.IsInRole("Подписант ОМСУ"))
+            else if (User.IsInRole("Оператор ОМСУ") || User.IsInRole("Куратор ОМСУ") || User.IsInRole("Подписант ОМСУ"))
             {
                 string userName = User.Identity.Name;
 
@@ -277,8 +277,8 @@ namespace WebApplicationLab6.Controllers
             {
                 return NotFound();
             }
-            ViewData["CustomerId"] = new SelectList(customers, "Id", "Id", contract.CustomerId);
-            ViewData["ExecutorId"] = new SelectList(excutors, "Id", "Id", contract.ExecutorId);
+            ViewBag.Customers = new SelectList(customers, "Id", "Name", contract.CustomerId);
+            ViewBag.Executors = new SelectList(excutors, "Id", "Name", contract.ExecutorId);
             return View(contract);
         }
 
@@ -296,7 +296,7 @@ namespace WebApplicationLab6.Controllers
             }
             var customers = _context.Organizations.ToList();
             var excutors = _context.Organizations.ToList();
-            if (User.IsInRole("Куратор приюта") || User.IsInRole("Подписан приюта") || User.IsInRole("Оператор приюта") || User.IsInRole("Оператор ОМСУ") || User.IsInRole("Куратор ОМСУ") || User.IsInRole("Подписант ОМСУ"))
+            if (User.IsInRole("Куратор приюта") || User.IsInRole("Подписан приюта") || User.IsInRole("Оператор приюта"))
             {
                 string userName = User.Identity.Name;
 
@@ -304,7 +304,7 @@ namespace WebApplicationLab6.Controllers
 
                 excutors = excutors.Where(x => x.Id == user.OrganizationId).ToList();
             }
-            else if (User.IsInRole("Куратор приюта") || User.IsInRole("Подписан приюта") || User.IsInRole("Оператор приюта") || User.IsInRole("Оператор ОМСУ") || User.IsInRole("Куратор ОМСУ") || User.IsInRole("Подписант ОМСУ"))
+            else if (User.IsInRole("Оператор ОМСУ") || User.IsInRole("Куратор ОМСУ") || User.IsInRole("Подписант ОМСУ"))
             {
                 string userName = User.Identity.Name;
 
@@ -332,8 +332,8 @@ namespace WebApplicationLab6.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CustomerId"] = new SelectList(customers, "Id", "Id", contract.CustomerId);
-            ViewData["ExecutorId"] = new SelectList(excutors, "Id", "Id", contract.ExecutorId);
+            ViewBag.Customers = new SelectList(customers, "Id", "Name", contract.CustomerId);
+            ViewBag.Executors = new SelectList(excutors, "Id", "Name", contract.ExecutorId);
             return View(contract);
         }
 

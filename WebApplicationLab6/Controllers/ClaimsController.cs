@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -170,7 +172,7 @@ namespace WebApplicationLab6.Controllers
 
                 cities = cities.Where(x => x.Id == user.Organization.CityId).ToList();
             }
-            ViewData["CityId"] = new SelectList(cities, "Id", "Id");
+            ViewData["CityId"] = new SelectList(cities, "Id", "Name");
             return View();
         }
 
@@ -198,7 +200,7 @@ namespace WebApplicationLab6.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CityId"] = new SelectList(cities, "Id", "Id", claim.CityId);
+            ViewData["CityId"] = new SelectList(cities, "Id", "Name");
             return View(claim);
         }
 
@@ -227,7 +229,7 @@ namespace WebApplicationLab6.Controllers
             {
                 return NotFound();
             }
-            ViewData["CityId"] = new SelectList(cities, "Id", "Id", claim.CityId);
+            ViewData["CityId"] = new SelectList(cities, "Id", "Name", claim.CityId);
             return View(claim);
         }
 
@@ -264,7 +266,7 @@ namespace WebApplicationLab6.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CityId"] = new SelectList(_context.Cities, "Id", "Id", claim.CityId);
+            ViewData["CityId"] = new SelectList(_context.Cities, "Id", "Name", claim.CityId);
             return View(claim);
         }
 
