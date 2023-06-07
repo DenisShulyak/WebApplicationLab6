@@ -180,7 +180,7 @@ namespace WebApplicationLab6.Controllers
         [Authorize(Roles = "Оператор ОМСУ")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("FilingDate,CategoryCustomer,District,Description,IsDone,CityId,Id")] Claim claim)
+        public async Task<IActionResult> Create([Bind("FilingDate,CategoryCustomer,District,Description,IsSpeed,IsDone,CityId,Id")] Claim claim)
         {
             var cities = _context.Cities.ToList();
             if (User.IsInRole("Оператор ОМСУ"))
@@ -237,7 +237,7 @@ namespace WebApplicationLab6.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("FilingDate,CategoryCustomer,District,Description,IsDone,CityId,Id")] Claim claim)
+        public async Task<IActionResult> Edit(Guid id, [Bind("FilingDate,CategoryCustomer,District,Description,IsSpeed,IsDone,CityId,Id")] Claim claim)
         {
             if (id != claim.Id)
             {
